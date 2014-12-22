@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>AspNet.Identity.EF.BigIntId</id>
+        <version>1.0.1</version>
+        <title>Asp.net Identity using numeric IDs rather than strings</title>
+        <authors>Paul Mcilreavy</authors>
+        <owners>Paul Mcilreavy</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Asp.net Identity using numeric IDs rather than strings.</description>
+        <summary>Asp.net Identity using numeric IDs rather than strings.</summary>
+        <releaseNotes>- rename to AspNet.Identity.EF.BigIntId from AspNet.Identity.EntityFramework.LongId.</releaseNotes>
+        <copyright>Copyright 2014</copyright>
+        <tags>asp.net identity</tags>
+        <dependencies>
+            <dependency id="EntityFramework" version="6.1.1" />
+            <dependency id="Microsoft.AspNet.Identity.EntityFramework" version="2.1.0" />
+            <dependency id="Microsoft.AspNet.Identity.Core" version="2.1.0" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="bin\Release\AspNet.Identity.EF.BigIntId.dll" target="lib\net45\AspNet.Identity.EF.BigIntId.dll" />
+    </files>
+</package>
