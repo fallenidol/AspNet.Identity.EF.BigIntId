@@ -1,6 +1,6 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace AspNet.Identity.EntityFramework.LongId
+namespace AspNet.Identity.EF.BigIntId
 {
     public class ApplicationUserLogin : IdentityUserLogin<long>
     {

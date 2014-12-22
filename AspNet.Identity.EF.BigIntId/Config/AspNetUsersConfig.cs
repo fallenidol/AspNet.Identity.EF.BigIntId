@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AspNet.Identity.EntityFramework.LongId.Config
+namespace AspNet.Identity.EF.BigIntId.Config
 {
     public class AspNetUsersConfig
     {
         #region Fields
 
-        private readonly Dictionary<AspNetUsersColumn, string> _alternateColumns = new Dictionary<AspNetUsersColumn, string>();
+        private readonly Dictionary<AspNetUsersColumn, string> _alternateColumns =
+            new Dictionary<AspNetUsersColumn, string>();
 
         #endregion Fields
 

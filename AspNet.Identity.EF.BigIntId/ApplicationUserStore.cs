@@ -1,7 +1,7 @@
 using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace AspNet.Identity.EntityFramework.LongId
+namespace AspNet.Identity.EF.BigIntId
 {
     public class ApplicationUserStore<T> : UserStore<T, ApplicationRole, long,
         ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>

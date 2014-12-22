@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using AspNet.Identity.EntityFramework.LongId;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AspNet.Identity.EF.BigIntId.Tests

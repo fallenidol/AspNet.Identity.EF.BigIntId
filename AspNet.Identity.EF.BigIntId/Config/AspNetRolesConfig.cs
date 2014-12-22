@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AspNet.Identity.EntityFramework.LongId.Config
+namespace AspNet.Identity.EF.BigIntId.Config
 {
     public class AspNetRolesConfig
     {
         #region Fields
 
-        private readonly Dictionary<AspNetRolesColumn, string> _alternateColumns = new Dictionary<AspNetRolesColumn, string>();
+        private readonly Dictionary<AspNetRolesColumn, string> _alternateColumns =
+            new Dictionary<AspNetRolesColumn, string>();
 
         #endregion Fields
 

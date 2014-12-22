@@ -1,4 +1,4 @@
-namespace AspNet.Identity.EntityFramework.LongId.Config
+namespace AspNet.Identity.EF.BigIntId.Config
 {
 
     #region Enumerations

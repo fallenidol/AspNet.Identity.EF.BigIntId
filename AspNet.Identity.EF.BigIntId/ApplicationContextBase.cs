@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Data.Entity;
-using AspNet.Identity.EntityFramework.LongId.Config;
+using AspNet.Identity.EF.BigIntId.Config;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace AspNet.Identity.EntityFramework.LongId
+namespace AspNet.Identity.EF.BigIntId
 {
     public abstract class ApplicationContextBase<T> : IdentityDbContext<T, ApplicationRole,
         long, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>
@@ -58,7 +58,8 @@ namespace AspNet.Identity.EntityFramework.LongId
             userRoleConfig.Property(o => o.RoleId).HasColumnType("BIGINT");
             userConfig.Property(o => o.Id).HasColumnType("BIGINT");
 
-            if (!string.IsNullOrWhiteSpace(_altSchemaName) && _altSchemaName.Equals("dbo", StringComparison.InvariantCultureIgnoreCase))
+            if (!string.IsNullOrWhiteSpace(_altSchemaName) &&
+                _altSchemaName.Equals("dbo", StringComparison.InvariantCultureIgnoreCase))
             {
                 roleConfig.ToTable(AspNetIdentityTable.AspNetRoles.ToString(), _altSchemaName);
                 userClaimConfig.ToTable(AspNetIdentityTable.AspNetUserClaims.ToString(), _altSchemaName);
@@ -98,15 +99,18 @@ namespace AspNet.Identity.EntityFramework.LongId
             }
             if (_userClaimConfig.AltExists(AspNetUserClaimsColumn.UserId))
             {
-                userClaimConfig.Property(o => o.UserId).HasColumnName(_userClaimConfig.AltName(AspNetUserClaimsColumn.UserId));
+                userClaimConfig.Property(o => o.UserId)
+                    .HasColumnName(_userClaimConfig.AltName(AspNetUserClaimsColumn.UserId));
             }
             if (_userClaimConfig.AltExists(AspNetUserClaimsColumn.ClaimValue))
             {
-                userClaimConfig.Property(o => o.ClaimValue).HasColumnName(_userClaimConfig.AltName(AspNetUserClaimsColumn.ClaimValue));
+                userClaimConfig.Property(o => o.ClaimValue)
+                    .HasColumnName(_userClaimConfig.AltName(AspNetUserClaimsColumn.ClaimValue));
             }
             if (_userClaimConfig.AltExists(AspNetUserClaimsColumn.ClaimType))
             {
-                userClaimConfig.Property(o => o.ClaimType).HasColumnName(_userClaimConfig.AltName(AspNetUserClaimsColumn.ClaimType));
+                userClaimConfig.Property(o => o.ClaimType)
+                    .HasColumnName(_userClaimConfig.AltName(AspNetUserClaimsColumn.ClaimType));
             }
 
             #endregion
@@ -120,15 +124,18 @@ namespace AspNet.Identity.EntityFramework.LongId
 
             if (_userLoginConfig.AltExists(AspNetUserLoginsColumn.UserId))
             {
-                userLoginConfig.Property(o => o.UserId).HasColumnName(_userLoginConfig.AltName(AspNetUserLoginsColumn.UserId));
+                userLoginConfig.Property(o => o.UserId)
+                    .HasColumnName(_userLoginConfig.AltName(AspNetUserLoginsColumn.UserId));
             }
             if (_userLoginConfig.AltExists(AspNetUserLoginsColumn.ProviderKey))
             {
-                userLoginConfig.Property(o => o.ProviderKey).HasColumnName(_userLoginConfig.AltName(AspNetUserLoginsColumn.ProviderKey));
+                userLoginConfig.Property(o => o.ProviderKey)
+                    .HasColumnName(_userLoginConfig.AltName(AspNetUserLoginsColumn.ProviderKey));
             }
             if (_userLoginConfig.AltExists(AspNetUserLoginsColumn.LoginProvider))
             {
-                userLoginConfig.Property(o => o.LoginProvider).HasColumnName(_userLoginConfig.AltName(AspNetUserLoginsColumn.LoginProvider));
+                userLoginConfig.Property(o => o.LoginProvider)
+                    .HasColumnName(_userLoginConfig.AltName(AspNetUserLoginsColumn.LoginProvider));
             }
 
             #endregion
@@ -142,11 +149,13 @@ namespace AspNet.Identity.EntityFramework.LongId
 
             if (_userRoleConfig.AltExists(AspNetUserRolesColumn.RoleId))
             {
-                userRoleConfig.Property(o => o.RoleId).HasColumnName(_userRoleConfig.AltName(AspNetUserRolesColumn.RoleId));
+                userRoleConfig.Property(o => o.RoleId)
+                    .HasColumnName(_userRoleConfig.AltName(AspNetUserRolesColumn.RoleId));
             }
             if (_userRoleConfig.AltExists(AspNetUserRolesColumn.UserId))
             {
-                userRoleConfig.Property(o => o.UserId).HasColumnName(_userRoleConfig.AltName(AspNetUserRolesColumn.UserId));
+                userRoleConfig.Property(o => o.UserId)
+                    .HasColumnName(_userRoleConfig.AltName(AspNetUserRolesColumn.UserId));
             }
 
             #endregion
@@ -164,7 +173,8 @@ namespace AspNet.Identity.EntityFramework.LongId
             }
             if (_userConfig.AltExists(AspNetUsersColumn.AccessFailedCount))
             {
-                userConfig.Property(o => o.AccessFailedCount).HasColumnName(_userConfig.AltName(AspNetUsersColumn.AccessFailedCount));
+                userConfig.Property(o => o.AccessFailedCount)
+                    .HasColumnName(_userConfig.AltName(AspNetUsersColumn.AccessFailedCount));
             }
             if (_userConfig.AltExists(AspNetUsersColumn.Email))
             {
@@ -172,35 +182,43 @@ namespace AspNet.Identity.EntityFramework.LongId
             }
             if (_userConfig.AltExists(AspNetUsersColumn.EmailConfirmed))
             {
-                userConfig.Property(o => o.EmailConfirmed).HasColumnName(_userConfig.AltName(AspNetUsersColumn.EmailConfirmed));
+                userConfig.Property(o => o.EmailConfirmed)
+                    .HasColumnName(_userConfig.AltName(AspNetUsersColumn.EmailConfirmed));
             }
             if (_userConfig.AltExists(AspNetUsersColumn.LockoutEnabled))
             {
-                userConfig.Property(o => o.LockoutEnabled).HasColumnName(_userConfig.AltName(AspNetUsersColumn.LockoutEnabled));
+                userConfig.Property(o => o.LockoutEnabled)
+                    .HasColumnName(_userConfig.AltName(AspNetUsersColumn.LockoutEnabled));
             }
             if (_userConfig.AltExists(AspNetUsersColumn.LockoutEndDateUtc))
             {
-                userConfig.Property(o => o.LockoutEndDateUtc).HasColumnName(_userConfig.AltName(AspNetUsersColumn.LockoutEndDateUtc));
+                userConfig.Property(o => o.LockoutEndDateUtc)
+                    .HasColumnName(_userConfig.AltName(AspNetUsersColumn.LockoutEndDateUtc));
             }
             if (_userConfig.AltExists(AspNetUsersColumn.PasswordHash))
             {
-                userConfig.Property(o => o.PasswordHash).HasColumnName(_userConfig.AltName(AspNetUsersColumn.PasswordHash));
+                userConfig.Property(o => o.PasswordHash)
+                    .HasColumnName(_userConfig.AltName(AspNetUsersColumn.PasswordHash));
             }
             if (_userConfig.AltExists(AspNetUsersColumn.PhoneNumber))
             {
-                userConfig.Property(o => o.PhoneNumber).HasColumnName(_userConfig.AltName(AspNetUsersColumn.PhoneNumber));
+                userConfig.Property(o => o.PhoneNumber)
+                    .HasColumnName(_userConfig.AltName(AspNetUsersColumn.PhoneNumber));
             }
             if (_userConfig.AltExists(AspNetUsersColumn.PhoneNumberConfirmed))
             {
-                userConfig.Property(o => o.PhoneNumberConfirmed).HasColumnName(_userConfig.AltName(AspNetUsersColumn.PhoneNumberConfirmed));
+                userConfig.Property(o => o.PhoneNumberConfirmed)
+                    .HasColumnName(_userConfig.AltName(AspNetUsersColumn.PhoneNumberConfirmed));
             }
             if (_userConfig.AltExists(AspNetUsersColumn.SecurityStamp))
             {
-                userConfig.Property(o => o.SecurityStamp).HasColumnName(_userConfig.AltName(AspNetUsersColumn.SecurityStamp));
+                userConfig.Property(o => o.SecurityStamp)
+                    .HasColumnName(_userConfig.AltName(AspNetUsersColumn.SecurityStamp));
             }
             if (_userConfig.AltExists(AspNetUsersColumn.TwoFactorEnabled))
             {
-                userConfig.Property(o => o.TwoFactorEnabled).HasColumnName(_userConfig.AltName(AspNetUsersColumn.TwoFactorEnabled));
+                userConfig.Property(o => o.TwoFactorEnabled)
+                    .HasColumnName(_userConfig.AltName(AspNetUsersColumn.TwoFactorEnabled));
             }
             if (_userConfig.AltExists(AspNetUsersColumn.UserName))
             {

@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AspNet.Identity.EntityFramework.LongId.Config
+namespace AspNet.Identity.EF.BigIntId.Config
 {
     public class AspNetTableConfig
     {
         #region Fields
 
-        private readonly Dictionary<AspNetIdentityTable, string> _alternateTables = new Dictionary<AspNetIdentityTable, string>();
+        private readonly Dictionary<AspNetIdentityTable, string> _alternateTables =
+            new Dictionary<AspNetIdentityTable, string>();
 
         #endregion Fields
 
