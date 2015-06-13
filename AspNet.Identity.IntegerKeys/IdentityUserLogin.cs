@@ -4,6 +4,5 @@ namespace AspNet.Identity.IntegerKeys
 {
     public class IdentityUserLogin : IdentityUserLogin<int>
     {
-        //
     }
 }

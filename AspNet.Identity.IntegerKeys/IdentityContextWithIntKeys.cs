@@ -4,7 +4,6 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Reflection;
-using AspNet.Identity.IntegerKey;
 using AspNet.Identity.IntegerKeys.Config;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -13,15 +12,12 @@ namespace AspNet.Identity.IntegerKeys
     public class IdentityContextWithIntKeys : IdentityContextWithIntKeys<IdentityUser>
     {
         public IdentityContextWithIntKeys()
-            : base()
         {
-
         }
 
         public IdentityContextWithIntKeys(string nameOrConnectionString = "DefaultConnection")
             : base(nameOrConnectionString)
         {
-
         }
 
         public IdentityContextWithIntKeys(
@@ -35,16 +31,15 @@ namespace AspNet.Identity.IntegerKeys
             AspNetUsersConfig userConfig = null
             )
             : base(nameOrConnectionString,
-            altSchemaName,
-            tableConfig,
-            roleConfig,
-            userClaimConfig,
-            userLoginConfig,
-            userRoleConfig,
-            userConfig
-            )
+                altSchemaName,
+                tableConfig,
+                roleConfig,
+                userClaimConfig,
+                userLoginConfig,
+                userRoleConfig,
+                userConfig
+                )
         {
-
         }
     }
 
@@ -63,7 +58,6 @@ namespace AspNet.Identity.IntegerKeys
         protected IdentityContextWithIntKeys()
             : this("DefaultConnection")
         {
-
         }
 
         protected IdentityContextWithIntKeys(
@@ -108,13 +102,13 @@ namespace AspNet.Identity.IntegerKeys
             {
                 var properties = e.Entity.GetType()
                     .GetProperties(BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.Instance)
-                    .Where(x => (x.PropertyType == typeof(DateTime) || x.PropertyType == typeof(DateTime?)));
+                    .Where(x => (x.PropertyType == typeof (DateTime) || x.PropertyType == typeof (DateTime?)));
 
                 foreach (var property in properties)
                 {
-                    if (property.PropertyType == typeof(DateTime?))
+                    if (property.PropertyType == typeof (DateTime?))
                     {
-                        var dt = (DateTime?)property.GetValue(e.Entity);
+                        var dt = (DateTime?) property.GetValue(e.Entity);
 
                         if (dt.HasValue)
                         {
@@ -123,9 +117,9 @@ namespace AspNet.Identity.IntegerKeys
                         }
                     }
 
-                    if (property.PropertyType == typeof(DateTime))
+                    if (property.PropertyType == typeof (DateTime))
                     {
-                        var dt = (DateTime)property.GetValue(e.Entity);
+                        var dt = (DateTime) property.GetValue(e.Entity);
 
                         var v = DateTime.SpecifyKind(dt, DateTimeKind.Utc);
                         property.SetValue(e.Entity, v);

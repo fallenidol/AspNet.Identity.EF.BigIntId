@@ -1,5 +1,4 @@
-// ReSharper disable CheckNamespace
-namespace AspNet.Identity.IntegerKey
+namespace AspNet.Identity.IntegerKeys.Config
 {
     public enum AspNetUserRolesColumn
     {

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AspNet.Identity.IntegerKey;
 
 namespace AspNet.Identity.IntegerKeys.Config
 {
@@ -52,6 +51,5 @@ namespace AspNet.Identity.IntegerKeys.Config
         {
             return _alternateColumns[key];
         }
-
     }
 }

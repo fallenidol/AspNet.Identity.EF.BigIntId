@@ -8,7 +8,6 @@ namespace AspNet.Identity.IntegerKeys
         public IdentityRoleStore(DbContext context)
             : base(context)
         {
-
         }
     }
 }

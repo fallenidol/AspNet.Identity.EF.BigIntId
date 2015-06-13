@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -87,7 +85,7 @@ namespace AspNet.Identity.IntegerKeys.Test
 
                 user = await userManager.FindByEmailAsync(user.Email);
 
-                Assert.AreEqual(typeof(int), user.Id.GetType());
+                Assert.AreEqual(typeof (int), user.Id.GetType());
                 Assert.IsNotNull(user);
                 Assert.AreEqual(1, user.Id);
             }
@@ -112,7 +110,7 @@ namespace AspNet.Identity.IntegerKeys.Test
 
                 user = await userManager.FindByEmailAsync(user.Email);
 
-                Assert.AreEqual(typeof(int), user.Id.GetType());
+                Assert.AreEqual(typeof (int), user.Id.GetType());
                 Assert.IsNotNull(user);
                 Assert.AreSame(user.Firstname, "John");
                 Assert.AreEqual(1, user.Id);
@@ -136,7 +134,7 @@ namespace AspNet.Identity.IntegerKeys.Test
 
                 user = await userManager.FindByEmailAsync(user.Email);
 
-                Assert.AreEqual(typeof(int), user.Id.GetType());
+                Assert.AreEqual(typeof (int), user.Id.GetType());
                 Assert.IsNotNull(user);
                 Assert.AreEqual(1, user.Id);
             }
@@ -166,6 +164,5 @@ namespace AspNet.Identity.IntegerKeys.Test
                 File.Delete(f.FullName);
             }
         }
-
     }
 }

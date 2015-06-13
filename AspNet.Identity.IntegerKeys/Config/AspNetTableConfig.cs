@@ -6,7 +6,6 @@ namespace AspNet.Identity.IntegerKeys.Config
 {
     public class AspNetTableConfig
     {
-
         private readonly Dictionary<AspNetIdentityTable, string> _alternateTables =
             new Dictionary<AspNetIdentityTable, string>();
 
