@@ -60,6 +60,11 @@ namespace AspNet.Identity.IntegerKeys.Test
             {
                 db.Database.CreateIfNotExists();
             }
+
+            using (var db = new IdentityContextCustomUser("DefaultConnection3"))
+            {
+                db.Database.CreateIfNotExists();
+            }
         }
 
         [TestMethod]
@@ -85,7 +90,7 @@ namespace AspNet.Identity.IntegerKeys.Test
 
                 user = await userManager.FindByEmailAsync(user.Email);
 
-                Assert.AreEqual(typeof (int), user.Id.GetType());
+                Assert.AreEqual(typeof(int), user.Id.GetType());
                 Assert.IsNotNull(user);
                 Assert.AreEqual(1, user.Id);
             }
@@ -110,7 +115,7 @@ namespace AspNet.Identity.IntegerKeys.Test
 
                 user = await userManager.FindByEmailAsync(user.Email);
 
-                Assert.AreEqual(typeof (int), user.Id.GetType());
+                Assert.AreEqual(typeof(int), user.Id.GetType());
                 Assert.IsNotNull(user);
                 Assert.AreSame(user.Firstname, "John");
                 Assert.AreEqual(1, user.Id);
@@ -134,8 +139,34 @@ namespace AspNet.Identity.IntegerKeys.Test
 
                 user = await userManager.FindByEmailAsync(user.Email);
 
-                Assert.AreEqual(typeof (int), user.Id.GetType());
+                Assert.AreEqual(typeof(int), user.Id.GetType());
                 Assert.IsNotNull(user);
+                Assert.AreEqual(1, user.Id);
+            }
+
+            using (var ctx = new IdentityContextCustomUser("DefaultConnection3"))
+            using (var userManager = new IdentityUserStore<CustomUser>(ctx))
+            {
+                var user = new CustomUser
+                {
+                    Firstname = "John",
+                    Surname = "Doe",
+                    Email = uniqueEmail,
+                    EmailConfirmed = true,
+                    UserName = uniqueEmail,
+                    PhoneNumber = (12345L + Environment.TickCount).ToString(),
+                    LockoutEnabled = true
+                };
+
+                await userManager.CreateAsync(user);
+
+                ctx.SaveChanges();
+
+                user = await userManager.FindByEmailAsync(user.Email);
+
+                Assert.AreEqual(typeof(int), user.Id.GetType());
+                Assert.IsNotNull(user);
+                Assert.AreSame(user.Firstname, "John");
                 Assert.AreEqual(1, user.Id);
             }
         }
@@ -154,6 +185,11 @@ namespace AspNet.Identity.IntegerKeys.Test
             }
 
             using (var db = new IdentityContextCustomUser())
+            {
+                db.Database.Delete();
+            }
+
+            using (var db = new IdentityContextCustomUser("DefaultConnection3"))
             {
                 db.Database.Delete();
             }

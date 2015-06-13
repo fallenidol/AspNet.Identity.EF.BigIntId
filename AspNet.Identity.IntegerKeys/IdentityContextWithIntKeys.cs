@@ -72,14 +72,6 @@ namespace AspNet.Identity.IntegerKeys
             )
             : base(nameOrConnectionString)
         {
-            Database.SetInitializer<IdentityContextWithIntKeys>(null);
-
-            ObjectContextAdapter = this;
-
-            ObjectContextAdapter.ObjectContext.ObjectMaterialized -= ObjectContext_ObjectMaterialized;
-            ObjectContextAdapter.ObjectContext.ObjectMaterialized += ObjectContext_ObjectMaterialized;
-
-
             _userConfig = userConfig ?? new AspNetUsersConfig();
             _roleConfig = roleConfig ?? new AspNetRolesConfig();
             _userLoginConfig = userLoginConfig ?? new AspNetUserLoginsConfig();
@@ -92,9 +84,9 @@ namespace AspNet.Identity.IntegerKeys
             {
                 _altSchemaName = "dbo";
             }
-        }
 
-        protected IObjectContextAdapter ObjectContextAdapter { get; set; }
+            (this as IObjectContextAdapter).ObjectContext.ObjectMaterialized += ObjectContext_ObjectMaterialized;
+        }
 
         private void ObjectContext_ObjectMaterialized(object sender, ObjectMaterializedEventArgs e)
         {
