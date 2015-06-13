@@ -89,7 +89,7 @@
     <PostBuildEvent>SET PATH=%25PATH%25;"$(SolutionDir).nuget";
 DEL /F /Q "$(SolutionDir)pkg\$(TargetName)*"
 
-NuGet pack "$(ProjectPath)" -OutputDirectory "$(SolutionDir)pkg" -Verbosity detailed
+NuGet pack "$(ProjectPath)" -OutputDirectory "$(SolutionDir)pkg" -Verbosity detailed -Prop Configuration=Release
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

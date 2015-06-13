@@ -1,39 +1,18 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-
-[assembly: AssemblyTitle("AspNet.Identity.EF.BigIntId.Tests")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("AspNet.Identity.IntegerKeys")]
+[assembly: AssemblyDescription("A customised set of asp.net Identity classes which provide integer primary keys instead of the string guids in the default implementation. Also provides the ability to easily rename the tables and columns.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AspNet.Identity.EF.BigIntId.Tests")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyCompany("Paul Mcilreavy")]
+[assembly: AssemblyProduct("AspNet.Identity.IntegerKeys")]
+[assembly: AssemblyCopyright("Copyright © 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
-// COM, set the ComVisible attribute to true on that type.
 
 [assembly: ComVisible(false)]
+[assembly: Guid("d13dfdac-d9d7-421e-be37-7d964afe63cb")]
 
-// The following GUID is for the ID of the typelib if this project is exposed to COM
-
-[assembly: Guid("7d4ce61c-0f57-4239-9dfe-3d811112574c")]
-
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-
-[assembly: AssemblyVersion("1.0.9.0")]
-[assembly: AssemblyFileVersion("1.0.9.0")]
+[assembly: AssemblyVersion("1.0.10.0")]
+[assembly: AssemblyFileVersion("1.0.10.0")]
