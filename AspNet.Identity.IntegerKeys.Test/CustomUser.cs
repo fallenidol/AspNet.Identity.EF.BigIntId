@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AspNet.Identity.IntegerKeys.Test
@@ -12,5 +13,13 @@ namespace AspNet.Identity.IntegerKeys.Test
         [Column("SURNAME")]
         [StringLength(128)]
         public string Surname { get; set; }
+
+        [Column("LAST_UPDATED_UTC")]
+        [DataType(DataType.DateTime)]
+        public DateTime LastUpdatedUtc { get; set; }
+
+        [Column("SOME_DATE_UTC")]
+        [DataType(DataType.DateTime)]
+        public DateTime? SomeDate { get; set; }
     }
 }

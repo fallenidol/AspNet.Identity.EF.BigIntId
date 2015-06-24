@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using AspNet.Identity.IntegerKeys.Config;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -85,36 +88,65 @@ namespace AspNet.Identity.IntegerKeys
                 _altSchemaName = "dbo";
             }
 
-            (this as IObjectContextAdapter).ObjectContext.ObjectMaterialized += ObjectContext_ObjectMaterialized;
+            try
+            {
+                (this as IObjectContextAdapter).ObjectContext.SavingChanges += ObjectContext_SavingChanges;
+            }
+            catch
+            {
+                //
+            }
+
+            try
+            {
+                (this as IObjectContextAdapter).ObjectContext.ObjectMaterialized += ObjectContext_ObjectMaterialized;
+            }
+            catch
+            {
+                //
+            }
+        }
+
+        private void ObjectContext_SavingChanges(object sender, EventArgs e)
+        {
+            foreach (var entry in ChangeTracker.Entries())
+            {
+                EnsureDateTimePropertiesAreUtc(entry.Entity);
+            }
         }
 
         private void ObjectContext_ObjectMaterialized(object sender, ObjectMaterializedEventArgs e)
         {
-            if (e.Entity != null)
+            EnsureDateTimePropertiesAreUtc(e.Entity);
+        }
+
+        private static void EnsureDateTimePropertiesAreUtc(object entity)
+        {
+            if (entity != null)
             {
-                var properties = e.Entity.GetType()
+                var properties = entity.GetType()
                     .GetProperties(BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.Instance)
-                    .Where(x => (x.PropertyType == typeof (DateTime) || x.PropertyType == typeof (DateTime?)));
+                    .Where(x => (x.PropertyType == typeof(DateTime) || x.PropertyType == typeof(DateTime?)));
 
                 foreach (var property in properties)
                 {
-                    if (property.PropertyType == typeof (DateTime?))
+                    if (property.PropertyType == typeof(DateTime?))
                     {
-                        var dt = (DateTime?) property.GetValue(e.Entity);
+                        var dt = (DateTime?)property.GetValue(entity);
 
                         if (dt.HasValue)
                         {
                             var v = DateTime.SpecifyKind(dt.Value, DateTimeKind.Utc);
-                            property.SetValue(e.Entity, v);
+                            property.SetValue(entity, v);
                         }
                     }
 
-                    if (property.PropertyType == typeof (DateTime))
+                    if (property.PropertyType == typeof(DateTime))
                     {
-                        var dt = (DateTime) property.GetValue(e.Entity);
+                        var dt = (DateTime)property.GetValue(entity);
 
                         var v = DateTime.SpecifyKind(dt, DateTimeKind.Utc);
-                        property.SetValue(e.Entity, v);
+                        property.SetValue(entity, v);
                     }
                 }
             }

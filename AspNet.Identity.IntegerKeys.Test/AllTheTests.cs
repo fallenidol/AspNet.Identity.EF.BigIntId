@@ -15,6 +15,8 @@ namespace AspNet.Identity.IntegerKeys.Test
         [ClassInitialize]
         public static void ClassInitialize(TestContext ctx)
         {
+            CleanUpDatabases();
+
             #region find app_data
 
             var dir = new DirectoryInfo(Assembly.GetExecutingAssembly().Location);
@@ -68,7 +70,7 @@ namespace AspNet.Identity.IntegerKeys.Test
         }
 
         [TestMethod]
-        public async Task TestCreateDatabase()
+        public void TestCreateDatabase()
         {
             var uniqueEmail = string.Format("john.doe{0}", Environment.TickCount);
 
@@ -84,11 +86,11 @@ namespace AspNet.Identity.IntegerKeys.Test
                     LockoutEnabled = true
                 };
 
-                await userManager.CreateAsync(user);
+                userManager.CreateAsync(user).Wait();
 
                 ctx.SaveChanges();
 
-                user = await userManager.FindByEmailAsync(user.Email);
+                user = userManager.FindByEmailAsync(user.Email).Result;
 
                 Assert.AreEqual(typeof(int), user.Id.GetType());
                 Assert.IsNotNull(user);
@@ -106,19 +108,23 @@ namespace AspNet.Identity.IntegerKeys.Test
                     EmailConfirmed = true,
                     UserName = uniqueEmail,
                     PhoneNumber = (12345L + Environment.TickCount).ToString(),
-                    LockoutEnabled = true
+                    LockoutEnabled = true,
+                    LastUpdatedUtc = DateTime.Now,
+                    SomeDate = DateTime.Now
                 };
 
-                await userManager.CreateAsync(user);
+                userManager.CreateAsync(user).Wait();
 
                 ctx.SaveChanges();
 
-                user = await userManager.FindByEmailAsync(user.Email);
+                user = userManager.FindByEmailAsync(user.Email).Result;
 
                 Assert.AreEqual(typeof(int), user.Id.GetType());
                 Assert.IsNotNull(user);
                 Assert.AreSame(user.Firstname, "John");
                 Assert.AreEqual(1, user.Id);
+                Assert.AreEqual(DateTimeKind.Utc, user.LastUpdatedUtc.Kind);
+                Assert.AreEqual(DateTimeKind.Utc, user.SomeDate.Value.Kind);
             }
 
             using (var ctx = new IdentityContext())
@@ -133,11 +139,11 @@ namespace AspNet.Identity.IntegerKeys.Test
                     LockoutEnabled = true
                 };
 
-                await userManager.CreateAsync(user);
+                userManager.CreateAsync(user).Wait();
 
                 ctx.SaveChanges();
 
-                user = await userManager.FindByEmailAsync(user.Email);
+                user = userManager.FindByEmailAsync(user.Email).Result;
 
                 Assert.AreEqual(typeof(int), user.Id.GetType());
                 Assert.IsNotNull(user);
@@ -155,24 +161,33 @@ namespace AspNet.Identity.IntegerKeys.Test
                     EmailConfirmed = true,
                     UserName = uniqueEmail,
                     PhoneNumber = (12345L + Environment.TickCount).ToString(),
-                    LockoutEnabled = true
+                    LockoutEnabled = true,
+                    LastUpdatedUtc = DateTime.Now,
+                    SomeDate = null
                 };
 
-                await userManager.CreateAsync(user);
+                userManager.CreateAsync(user).Wait();
 
                 ctx.SaveChanges();
 
-                user = await userManager.FindByEmailAsync(user.Email);
+                user = userManager.FindByEmailAsync(user.Email).Result;
 
                 Assert.AreEqual(typeof(int), user.Id.GetType());
                 Assert.IsNotNull(user);
                 Assert.AreSame(user.Firstname, "John");
                 Assert.AreEqual(1, user.Id);
+                Assert.AreEqual(DateTimeKind.Utc, user.LastUpdatedUtc.Kind);
+                Assert.AreEqual(false, user.SomeDate.HasValue);
             }
         }
 
         [ClassCleanup]
         public static void ClassCleanup()
+        {
+            CleanUpDatabases();
+        }
+
+        private static void CleanUpDatabases(bool rollback = false)
         {
             using (var db = new IdentityContextWithIntKeys())
             {
@@ -194,11 +209,11 @@ namespace AspNet.Identity.IntegerKeys.Test
                 db.Database.Delete();
             }
 
-            var files = new DirectoryInfo(_appDataDir).EnumerateFiles("*.*");
-            foreach (var f in files)
-            {
-                File.Delete(f.FullName);
-            }
+            //var files = new DirectoryInfo(_appDataDir).EnumerateFiles("*.*");
+            //foreach (var f in files)
+            //{
+            //    File.Delete(f.FullName);
+            //}
         }
     }
 }
