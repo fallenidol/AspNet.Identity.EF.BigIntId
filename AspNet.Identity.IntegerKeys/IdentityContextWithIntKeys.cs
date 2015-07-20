@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -134,10 +135,18 @@ namespace AspNet.Identity.IntegerKeys
                     {
                         var dt = (DateTime?)property.GetValue(entity);
 
-                        if (dt.HasValue)
+                        if (dt.HasValue && dt.Value.Kind == DateTimeKind.Unspecified)
                         {
+                            Trace.WriteLine(string.Format("Setting {0} to UTC", property.Name));
+
                             var v = DateTime.SpecifyKind(dt.Value, DateTimeKind.Utc);
                             property.SetValue(entity, v);
+                        }
+                        else if (dt.HasValue && dt.Value.Kind == DateTimeKind.Local)
+                        {
+                            Trace.WriteLine(string.Format("Changing {0} to UTC", property.Name));
+
+                            property.SetValue(entity, dt.Value.ToUniversalTime());
                         }
                     }
 
@@ -145,8 +154,19 @@ namespace AspNet.Identity.IntegerKeys
                     {
                         var dt = (DateTime)property.GetValue(entity);
 
-                        var v = DateTime.SpecifyKind(dt, DateTimeKind.Utc);
-                        property.SetValue(entity, v);
+                        if (dt.Kind == DateTimeKind.Unspecified)
+                        {
+                            Trace.WriteLine(string.Format("Setting {0} to UTC", property.Name));
+
+                            var v = DateTime.SpecifyKind(dt, DateTimeKind.Utc);
+                            property.SetValue(entity, v);
+                        }
+                        else if (dt.Kind == DateTimeKind.Local)
+                        {
+                            Trace.WriteLine(string.Format("Changing {0} to UTC", property.Name));
+
+                            property.SetValue(entity, dt.ToUniversalTime());
+                        }
                     }
                 }
             }
