@@ -184,7 +184,7 @@ namespace AspNet.Identity.IntegerKeys.Test
         [ClassCleanup]
         public static void ClassCleanup()
         {
-            CleanUpDatabases();
+            //CleanUpDatabases();
         }
 
         private static void CleanUpDatabases(bool rollback = false)

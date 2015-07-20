@@ -188,7 +188,11 @@ namespace AspNet.Identity.IntegerKeys
             userLoginConfig.Property(o => o.UserId).HasColumnType("INT");
             userRoleConfig.Property(o => o.UserId).HasColumnType("INT");
             userRoleConfig.Property(o => o.RoleId).HasColumnType("INT");
+
             userConfig.Property(o => o.Id).HasColumnType("INT");
+            userConfig.Property(o => o.PhoneNumber).HasMaxLength(25);
+            userConfig.Property(o => o.SecurityStamp).HasMaxLength(40);
+            userConfig.Property(o => o.PasswordHash).HasMaxLength(128);
 
             if (!string.IsNullOrWhiteSpace(_altSchemaName))
             {
