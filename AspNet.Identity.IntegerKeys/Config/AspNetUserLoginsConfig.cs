@@ -33,6 +33,11 @@ namespace AspNet.Identity.IntegerKeys.Config
             }
             if (_alternateColumns.Values.Any(s => s.Equals(alternateName, StringComparison.InvariantCultureIgnoreCase)))
             {
+                throw new ArgumentException(string.Format("[{0}] has already been configured.", alternateName));
+            }
+
+            if (_alternateColumns.ContainsKey(key))
+            {
                 _alternateColumns.Remove(key);
             }
             _alternateColumns.Add(key, alternateName);

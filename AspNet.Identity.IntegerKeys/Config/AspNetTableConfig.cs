@@ -37,6 +37,11 @@ namespace AspNet.Identity.IntegerKeys.Config
             }
             if (_alternateTables.Values.Any(s => s.Equals(alternateName, StringComparison.InvariantCultureIgnoreCase)))
             {
+                throw new ArgumentException(string.Format("[{0}] has already been configured.", alternateName));
+            }
+
+            if (_alternateTables.ContainsKey(key))
+            {
                 _alternateTables.Remove(key);
             }
             _alternateTables.Add(key, alternateName);
