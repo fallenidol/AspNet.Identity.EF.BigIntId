@@ -12,38 +12,38 @@ namespace AspNet.Identity.IntegerKeys.Config
         public static AspNetUsersConfig AllCapsWithUnderscores()
         {
             return new AspNetUsersConfig()
-                .Add(AspNetUsersColumn.Id, "USER_ID")
-                .Add(AspNetUsersColumn.AccessFailedCount, "LOGIN_FAIL_COUNT")
-                .Add(AspNetUsersColumn.Email, "EMAIL")
-                .Add(AspNetUsersColumn.EmailConfirmed, "EMAIL_CONFIRMED")
-                .Add(AspNetUsersColumn.LockoutEnabled, "LOCKOUT_ENABLED")
-                .Add(AspNetUsersColumn.LockoutEndDateUtc, "LOCKOUT_END_DATETIME_UTC")
-                .Add(AspNetUsersColumn.PasswordHash, "PASSWORD_HASH")
-                .Add(AspNetUsersColumn.PhoneNumber, "PHONE_NUMBER")
-                .Add(AspNetUsersColumn.PhoneNumberConfirmed, "PHONE_NUMBER_CONFIRMED")
-                .Add(AspNetUsersColumn.SecurityStamp, "SECURITY_STAMP")
-                .Add(AspNetUsersColumn.TwoFactorEnabled, "TWO_FACTOR_ENABLED")
-                .Add(AspNetUsersColumn.UserName, "USERNAME");
+                .Set(AspNetUsersColumn.Id, "USER_ID")
+                .Set(AspNetUsersColumn.AccessFailedCount, "LOGIN_FAIL_COUNT")
+                .Set(AspNetUsersColumn.Email, "EMAIL")
+                .Set(AspNetUsersColumn.EmailConfirmed, "EMAIL_CONFIRMED")
+                .Set(AspNetUsersColumn.LockoutEnabled, "LOCKOUT_ENABLED")
+                .Set(AspNetUsersColumn.LockoutEndDateUtc, "LOCKOUT_END_DATETIME_UTC")
+                .Set(AspNetUsersColumn.PasswordHash, "PASSWORD_HASH")
+                .Set(AspNetUsersColumn.PhoneNumber, "PHONE_NUMBER")
+                .Set(AspNetUsersColumn.PhoneNumberConfirmed, "PHONE_NUMBER_CONFIRMED")
+                .Set(AspNetUsersColumn.SecurityStamp, "SECURITY_STAMP")
+                .Set(AspNetUsersColumn.TwoFactorEnabled, "TWO_FACTOR_ENABLED")
+                .Set(AspNetUsersColumn.UserName, "USERNAME");
         }
 
         public static AspNetUsersConfig Pascal()
         {
             return new AspNetUsersConfig()
-                .Add(AspNetUsersColumn.Id, "Id")
-                .Add(AspNetUsersColumn.AccessFailedCount, "LoginFailedCount")
-                .Add(AspNetUsersColumn.Email, "Email")
-                .Add(AspNetUsersColumn.EmailConfirmed, "EmailConfirmed")
-                .Add(AspNetUsersColumn.LockoutEnabled, "LockoutEnabled")
-                .Add(AspNetUsersColumn.LockoutEndDateUtc, "LockoutPeriodEndDateTimeUtc")
-                .Add(AspNetUsersColumn.PasswordHash, "HashedPassword")
-                .Add(AspNetUsersColumn.PhoneNumber, "PhoneNumber")
-                .Add(AspNetUsersColumn.PhoneNumberConfirmed, "PhoneNumberConfirmed")
-                .Add(AspNetUsersColumn.SecurityStamp, "SecurityStamp")
-                .Add(AspNetUsersColumn.TwoFactorEnabled, "TwoFactorLoginEnabled")
-                .Add(AspNetUsersColumn.UserName, "Username");
+                .Set(AspNetUsersColumn.Id, "Id")
+                .Set(AspNetUsersColumn.AccessFailedCount, "LoginFailedCount")
+                .Set(AspNetUsersColumn.Email, "Email")
+                .Set(AspNetUsersColumn.EmailConfirmed, "EmailConfirmed")
+                .Set(AspNetUsersColumn.LockoutEnabled, "LockoutEnabled")
+                .Set(AspNetUsersColumn.LockoutEndDateUtc, "LockoutPeriodEndDateTimeUtc")
+                .Set(AspNetUsersColumn.PasswordHash, "HashedPassword")
+                .Set(AspNetUsersColumn.PhoneNumber, "PhoneNumber")
+                .Set(AspNetUsersColumn.PhoneNumberConfirmed, "PhoneNumberConfirmed")
+                .Set(AspNetUsersColumn.SecurityStamp, "SecurityStamp")
+                .Set(AspNetUsersColumn.TwoFactorEnabled, "TwoFactorLoginEnabled")
+                .Set(AspNetUsersColumn.UserName, "Username");
         }
 
-        public virtual AspNetUsersConfig Add(AspNetUsersColumn key, string alternateName)
+        public AspNetUsersConfig Set(AspNetUsersColumn key, string alternateName)
         {
             if (string.IsNullOrWhiteSpace(alternateName))
             {
@@ -51,7 +51,7 @@ namespace AspNet.Identity.IntegerKeys.Config
             }
             if (_alternateColumns.Values.Any(s => s.Equals(alternateName, StringComparison.InvariantCultureIgnoreCase)))
             {
-                throw new ArgumentException(string.Format("[{0}] has already been configured.", alternateName));
+                _alternateColumns.Remove(key);
             }
             _alternateColumns.Add(key, alternateName);
 

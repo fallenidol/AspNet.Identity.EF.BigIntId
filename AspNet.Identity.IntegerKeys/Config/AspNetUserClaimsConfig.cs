@@ -12,22 +12,22 @@ namespace AspNet.Identity.IntegerKeys.Config
         public static AspNetUserClaimsConfig AllCapsWithUnderscores()
         {
             return new AspNetUserClaimsConfig()
-                .Add(AspNetUserClaimsColumn.Id, "CLAIM_ID")
-                .Add(AspNetUserClaimsColumn.UserId, "USER_ID")
-                .Add(AspNetUserClaimsColumn.ClaimType, "CLAIM_TYPE")
-                .Add(AspNetUserClaimsColumn.ClaimValue, "CLAIM_VALUE");
+                .Set(AspNetUserClaimsColumn.Id, "CLAIM_ID")
+                .Set(AspNetUserClaimsColumn.UserId, "USER_ID")
+                .Set(AspNetUserClaimsColumn.ClaimType, "CLAIM_TYPE")
+                .Set(AspNetUserClaimsColumn.ClaimValue, "CLAIM_VALUE");
         }
 
         public static AspNetUserClaimsConfig Pascal()
         {
             return new AspNetUserClaimsConfig()
-                .Add(AspNetUserClaimsColumn.Id, "Id")
-                .Add(AspNetUserClaimsColumn.UserId, "UserId")
-                .Add(AspNetUserClaimsColumn.ClaimType, "ClaimType")
-                .Add(AspNetUserClaimsColumn.ClaimValue, "ClaimValue");
+                .Set(AspNetUserClaimsColumn.Id, "Id")
+                .Set(AspNetUserClaimsColumn.UserId, "UserId")
+                .Set(AspNetUserClaimsColumn.ClaimType, "ClaimType")
+                .Set(AspNetUserClaimsColumn.ClaimValue, "ClaimValue");
         }
 
-        public virtual AspNetUserClaimsConfig Add(AspNetUserClaimsColumn key, string alternateName)
+        public AspNetUserClaimsConfig Set(AspNetUserClaimsColumn key, string alternateName)
         {
             if (string.IsNullOrWhiteSpace(alternateName))
             {
@@ -35,7 +35,7 @@ namespace AspNet.Identity.IntegerKeys.Config
             }
             if (_alternateColumns.Values.Any(s => s.Equals(alternateName, StringComparison.InvariantCultureIgnoreCase)))
             {
-                throw new ArgumentException(string.Format("[{0}] has already been configured.", alternateName));
+                _alternateColumns.Remove(key);
             }
             _alternateColumns.Add(key, alternateName);
 

@@ -12,18 +12,18 @@ namespace AspNet.Identity.IntegerKeys.Config
         public static AspNetRolesConfig AllCapsWithUnderscores()
         {
             return new AspNetRolesConfig()
-                .Add(AspNetRolesColumn.Id, "ROLE_ID")
-                .Add(AspNetRolesColumn.Name, "ROLE_NAME");
+                .Set(AspNetRolesColumn.Id, "ROLE_ID")
+                .Set(AspNetRolesColumn.Name, "ROLE_NAME");
         }
 
         public static AspNetRolesConfig Pascal()
         {
             return new AspNetRolesConfig()
-                .Add(AspNetRolesColumn.Id, "Id")
-                .Add(AspNetRolesColumn.Name, "Name");
+                .Set(AspNetRolesColumn.Id, "Id")
+                .Set(AspNetRolesColumn.Name, "Name");
         }
 
-        public virtual AspNetRolesConfig Add(AspNetRolesColumn key, string alternateName)
+        public AspNetRolesConfig Set(AspNetRolesColumn key, string alternateName)
         {
             if (string.IsNullOrWhiteSpace(alternateName))
             {
@@ -31,7 +31,7 @@ namespace AspNet.Identity.IntegerKeys.Config
             }
             if (_alternateColumns.Values.Any(s => s.Equals(alternateName, StringComparison.InvariantCultureIgnoreCase)))
             {
-                throw new ArgumentException(string.Format("[{0}] has already been configured.", alternateName));
+                _alternateColumns.Remove(key);
             }
             _alternateColumns.Add(key, alternateName);
 

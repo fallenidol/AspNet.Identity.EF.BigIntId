@@ -12,20 +12,20 @@ namespace AspNet.Identity.IntegerKeys.Config
         public static AspNetUserLoginsConfig AllCapsWithUnderscores()
         {
             return new AspNetUserLoginsConfig()
-                .Add(AspNetUserLoginsColumn.UserId, "USER_ID")
-                .Add(AspNetUserLoginsColumn.LoginProvider, "LOGIN_PROVIDER")
-                .Add(AspNetUserLoginsColumn.ProviderKey, "PROVIDER_KEY");
+                .Set(AspNetUserLoginsColumn.UserId, "USER_ID")
+                .Set(AspNetUserLoginsColumn.LoginProvider, "LOGIN_PROVIDER")
+                .Set(AspNetUserLoginsColumn.ProviderKey, "PROVIDER_KEY");
         }
 
         public static AspNetUserLoginsConfig Pascal()
         {
             return new AspNetUserLoginsConfig()
-                .Add(AspNetUserLoginsColumn.UserId, "UserId")
-                .Add(AspNetUserLoginsColumn.LoginProvider, "LoginProvider")
-                .Add(AspNetUserLoginsColumn.ProviderKey, "ProviderKey");
+                .Set(AspNetUserLoginsColumn.UserId, "UserId")
+                .Set(AspNetUserLoginsColumn.LoginProvider, "LoginProvider")
+                .Set(AspNetUserLoginsColumn.ProviderKey, "ProviderKey");
         }
 
-        public virtual AspNetUserLoginsConfig Add(AspNetUserLoginsColumn key, string alternateName)
+        public AspNetUserLoginsConfig Set(AspNetUserLoginsColumn key, string alternateName)
         {
             if (string.IsNullOrWhiteSpace(alternateName))
             {
@@ -33,7 +33,7 @@ namespace AspNet.Identity.IntegerKeys.Config
             }
             if (_alternateColumns.Values.Any(s => s.Equals(alternateName, StringComparison.InvariantCultureIgnoreCase)))
             {
-                throw new ArgumentException(string.Format("[{0}] has already been configured.", alternateName));
+                _alternateColumns.Remove(key);
             }
             _alternateColumns.Add(key, alternateName);
 
