@@ -12,24 +12,24 @@ namespace AspNet.Identity.IntegerKeys.Config
         public static AspNetTableConfig AllCapsWithUnderscores()
         {
             return new AspNetTableConfig()
-                .Add(AspNetIdentityTable.AspNetRoles, "ROLE")
-                .Add(AspNetIdentityTable.AspNetUserClaims, "USER_CLAIM")
-                .Add(AspNetIdentityTable.AspNetUserLogins, "USER_LOGIN")
-                .Add(AspNetIdentityTable.AspNetUserRoles, "USER_ROLE")
-                .Add(AspNetIdentityTable.AspNetUsers, "USER");
+                .Set(AspNetIdentityTable.AspNetRoles, "ROLE")
+                .Set(AspNetIdentityTable.AspNetUserClaims, "USER_CLAIM")
+                .Set(AspNetIdentityTable.AspNetUserLogins, "USER_LOGIN")
+                .Set(AspNetIdentityTable.AspNetUserRoles, "USER_ROLE")
+                .Set(AspNetIdentityTable.AspNetUsers, "USER");
         }
 
         public static AspNetTableConfig Pascal()
         {
             return new AspNetTableConfig()
-                .Add(AspNetIdentityTable.AspNetRoles, "Role")
-                .Add(AspNetIdentityTable.AspNetUserClaims, "UserClaim")
-                .Add(AspNetIdentityTable.AspNetUserLogins, "UserLogin")
-                .Add(AspNetIdentityTable.AspNetUserRoles, "UserRole")
-                .Add(AspNetIdentityTable.AspNetUsers, "User");
+                .Set(AspNetIdentityTable.AspNetRoles, "Role")
+                .Set(AspNetIdentityTable.AspNetUserClaims, "UserClaim")
+                .Set(AspNetIdentityTable.AspNetUserLogins, "UserLogin")
+                .Set(AspNetIdentityTable.AspNetUserRoles, "UserRole")
+                .Set(AspNetIdentityTable.AspNetUsers, "User");
         }
 
-        public virtual AspNetTableConfig Add(AspNetIdentityTable key, string alternateName)
+        public virtual AspNetTableConfig Set(AspNetIdentityTable key, string alternateName)
         {
             if (string.IsNullOrWhiteSpace(alternateName))
             {
@@ -37,7 +37,7 @@ namespace AspNet.Identity.IntegerKeys.Config
             }
             if (_alternateTables.Values.Any(s => s.Equals(alternateName, StringComparison.InvariantCultureIgnoreCase)))
             {
-                throw new ArgumentException(string.Format("[{0}] has already been configured.", alternateName));
+                _alternateTables.Remove(key);
             }
             _alternateTables.Add(key, alternateName);
 
