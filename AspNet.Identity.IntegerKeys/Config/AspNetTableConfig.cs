@@ -29,7 +29,7 @@ namespace AspNet.Identity.IntegerKeys.Config
                 .Set(AspNetIdentityTable.AspNetUsers, "User");
         }
 
-        public virtual AspNetTableConfig Set(AspNetIdentityTable key, string alternateName)
+        public AspNetTableConfig Set(AspNetIdentityTable key, string alternateName)
         {
             if (string.IsNullOrWhiteSpace(alternateName))
             {
