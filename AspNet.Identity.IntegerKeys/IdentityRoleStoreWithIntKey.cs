@@ -3,9 +3,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace AspNet.Identity.IntegerKeys
 {
-    public class IdentityRoleStore : RoleStore<IdentityRole, int, IdentityUserRole>
+    public class IdentityRoleStoreWithIntKey : RoleStore<IdentityRoleWithIntKey, int, IdentityUserRoleWithIntKey>
     {
-        public IdentityRoleStore(DbContext context)
+        public IdentityRoleStoreWithIntKey(DbContext context)
             : base(context)
         {
         }

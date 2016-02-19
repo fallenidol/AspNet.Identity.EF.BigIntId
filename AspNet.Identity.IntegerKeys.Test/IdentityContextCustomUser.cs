@@ -2,7 +2,7 @@ using AspNet.Identity.IntegerKeys.Config;
 
 namespace AspNet.Identity.IntegerKeys.Test
 {
-    public class IdentityContextCustomUser : IdentityContextWithIntKeys<CustomUser>
+    public class IdentityContextCustomUser : IdentityContextWithIntKey<CustomUser>
     {
         public IdentityContextCustomUser(string connection = "DefaultConnection2")
             : base(connection,

@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AspNet.Identity.IntegerKeys.Test
@@ -48,7 +47,7 @@ namespace AspNet.Identity.IntegerKeys.Test
                 File.Delete(f.FullName);
             }
 
-            using (var db = new IdentityContextWithIntKeys())
+            using (var db = new IdentityContextWithIntKey())
             {
                 db.Database.CreateIfNotExists();
             }
@@ -74,10 +73,10 @@ namespace AspNet.Identity.IntegerKeys.Test
         {
             var uniqueEmail = string.Format("john.doe{0}", Environment.TickCount);
 
-            using (var ctx = new IdentityContextWithIntKeys())
-            using (var userManager = new IdentityUserStore<IdentityUser>(ctx))
+            using (var ctx = new IdentityContextWithIntKey())
+            using (var userManager = new IdentityUserStoreWithIntKey<IdentityUserWithIntKey>(ctx))
             {
-                var user = new IdentityUser
+                var user = new IdentityUserWithIntKey
                 {
                     Email = uniqueEmail,
                     EmailConfirmed = true,
@@ -92,13 +91,13 @@ namespace AspNet.Identity.IntegerKeys.Test
 
                 user = userManager.FindByEmailAsync(user.Email).Result;
 
-                Assert.AreEqual(typeof(int), user.Id.GetType());
+                Assert.AreEqual(typeof (int), user.Id.GetType());
                 Assert.IsNotNull(user);
                 Assert.AreEqual(1, user.Id);
             }
 
             using (var ctx = new IdentityContextCustomUser())
-            using (var userManager = new IdentityUserStore<CustomUser>(ctx))
+            using (var userManager = new IdentityUserStoreWithIntKey<CustomUser>(ctx))
             {
                 var user = new CustomUser
                 {
@@ -119,7 +118,7 @@ namespace AspNet.Identity.IntegerKeys.Test
 
                 user = userManager.FindByEmailAsync(user.Email).Result;
 
-                Assert.AreEqual(typeof(int), user.Id.GetType());
+                Assert.AreEqual(typeof (int), user.Id.GetType());
                 Assert.IsNotNull(user);
                 Assert.AreSame(user.Firstname, "John");
                 Assert.AreEqual(1, user.Id);
@@ -128,9 +127,9 @@ namespace AspNet.Identity.IntegerKeys.Test
             }
 
             using (var ctx = new IdentityContext())
-            using (var userManager = new IdentityUserStore<IdentityUser>(ctx))
+            using (var userManager = new IdentityUserStoreWithIntKey<IdentityUserWithIntKey>(ctx))
             {
-                var user = new IdentityUser
+                var user = new IdentityUserWithIntKey
                 {
                     Email = uniqueEmail,
                     EmailConfirmed = true,
@@ -145,13 +144,13 @@ namespace AspNet.Identity.IntegerKeys.Test
 
                 user = userManager.FindByEmailAsync(user.Email).Result;
 
-                Assert.AreEqual(typeof(int), user.Id.GetType());
+                Assert.AreEqual(typeof (int), user.Id.GetType());
                 Assert.IsNotNull(user);
                 Assert.AreEqual(1, user.Id);
             }
 
             using (var ctx = new IdentityContextCustomUser("DefaultConnection3"))
-            using (var userManager = new IdentityUserStore<CustomUser>(ctx))
+            using (var userManager = new IdentityUserStoreWithIntKey<CustomUser>(ctx))
             {
                 var user = new CustomUser
                 {
@@ -172,12 +171,13 @@ namespace AspNet.Identity.IntegerKeys.Test
 
                 user = userManager.FindByEmailAsync(user.Email).Result;
 
-                Assert.AreEqual(typeof(int), user.Id.GetType());
+                Assert.AreEqual(typeof (int), user.Id.GetType());
                 Assert.IsNotNull(user);
                 Assert.AreSame(user.Firstname, "John");
                 Assert.AreEqual(1, user.Id);
                 Assert.AreEqual(DateTimeKind.Utc, user.LastUpdatedUtc.Kind);
                 Assert.AreEqual(false, user.SomeDate.HasValue);
+
             }
         }
 
@@ -189,7 +189,7 @@ namespace AspNet.Identity.IntegerKeys.Test
 
         private static void CleanUpDatabases(bool rollback = false)
         {
-            using (var db = new IdentityContextWithIntKeys())
+            using (var db = new IdentityContextWithIntKey())
             {
                 db.Database.Delete();
             }

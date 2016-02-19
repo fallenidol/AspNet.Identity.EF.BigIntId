@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AspNet.Identity.IntegerKeys.Test
 {
-    public class CustomUser : IdentityUser
+    public class CustomUser : IdentityUserWithIntKey
     {
         [Column("FIRSTNAME")]
         [StringLength(128)]

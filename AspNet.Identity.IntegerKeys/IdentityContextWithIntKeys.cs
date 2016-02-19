@@ -1,30 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using AspNet.Identity.IntegerKeys.Config;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace AspNet.Identity.IntegerKeys
 {
-    public class IdentityContextWithIntKeys : IdentityContextWithIntKeys<IdentityUser>
+    public class IdentityContextWithIntKey : IdentityContextWithIntKey<IdentityUserWithIntKey>
     {
-        public IdentityContextWithIntKeys()
+        public IdentityContextWithIntKey()
         {
         }
 
-        public IdentityContextWithIntKeys(string nameOrConnectionString = "DefaultConnection")
+        public IdentityContextWithIntKey(string nameOrConnectionString = "DefaultConnection")
             : base(nameOrConnectionString)
         {
         }
 
-        public IdentityContextWithIntKeys(
+        public IdentityContextWithIntKey(
             string nameOrConnectionString = "DefaultConnection",
             string altSchemaName = null,
             AspNetTableConfig tableConfig = null,
@@ -47,9 +44,9 @@ namespace AspNet.Identity.IntegerKeys
         }
     }
 
-    public abstract class IdentityContextWithIntKeys<T> :
-        IdentityDbContext<T, IdentityRole, int, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
-        where T : IdentityUser
+    public abstract class IdentityContextWithIntKey<T> :
+        IdentityDbContext<T, IdentityRoleWithIntKey, int, IdentityUserLoginWithIntKey, IdentityUserRoleWithIntKey, IdentityUserClaimWithIntKey>
+        where T : IdentityUserWithIntKey
     {
         private readonly string _altSchemaName;
         private readonly AspNetRolesConfig _roleConfig;
@@ -59,12 +56,12 @@ namespace AspNet.Identity.IntegerKeys
         private readonly AspNetUserLoginsConfig _userLoginConfig;
         private readonly AspNetUserRolesConfig _userRoleConfig;
 
-        protected IdentityContextWithIntKeys()
+        protected IdentityContextWithIntKey()
             : this("DefaultConnection")
         {
         }
 
-        protected IdentityContextWithIntKeys(
+        protected IdentityContextWithIntKey(
             string nameOrConnectionString = "DefaultConnection",
             string altSchemaName = null,
             AspNetTableConfig tableConfig = null,
@@ -127,13 +124,13 @@ namespace AspNet.Identity.IntegerKeys
             {
                 var properties = entity.GetType()
                     .GetProperties(BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.Instance)
-                    .Where(x => (x.PropertyType == typeof(DateTime) || x.PropertyType == typeof(DateTime?)));
+                    .Where(x => x.PropertyType == typeof (DateTime) || x.PropertyType == typeof (DateTime?));
 
                 foreach (var property in properties)
                 {
-                    if (property.PropertyType == typeof(DateTime?))
+                    if (property.PropertyType == typeof (DateTime?))
                     {
-                        var dt = (DateTime?)property.GetValue(entity);
+                        var dt = (DateTime?) property.GetValue(entity);
 
                         if (dt.HasValue && dt.Value.Kind == DateTimeKind.Unspecified)
                         {
@@ -150,9 +147,9 @@ namespace AspNet.Identity.IntegerKeys
                         }
                     }
 
-                    if (property.PropertyType == typeof(DateTime))
+                    if (property.PropertyType == typeof (DateTime))
                     {
-                        var dt = (DateTime)property.GetValue(entity);
+                        var dt = (DateTime) property.GetValue(entity);
 
                         if (dt.Kind == DateTimeKind.Unspecified)
                         {
@@ -176,10 +173,10 @@ namespace AspNet.Identity.IntegerKeys
         {
             base.OnModelCreating(modelBuilder);
 
-            var roleConfig = modelBuilder.Entity<IdentityRole>();
-            var userClaimConfig = modelBuilder.Entity<IdentityUserClaim>();
-            var userLoginConfig = modelBuilder.Entity<IdentityUserLogin>();
-            var userRoleConfig = modelBuilder.Entity<IdentityUserRole>();
+            var roleConfig = modelBuilder.Entity<IdentityRoleWithIntKey>();
+            var userClaimConfig = modelBuilder.Entity<IdentityUserClaimWithIntKey>();
+            var userLoginConfig = modelBuilder.Entity<IdentityUserLoginWithIntKey>();
+            var userRoleConfig = modelBuilder.Entity<IdentityUserRoleWithIntKey>();
             var userConfig = modelBuilder.Entity<T>();
 
             roleConfig.Property(o => o.Id).HasColumnType("INT");

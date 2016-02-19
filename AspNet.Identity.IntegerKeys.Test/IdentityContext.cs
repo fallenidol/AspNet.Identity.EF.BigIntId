@@ -2,7 +2,7 @@
 
 namespace AspNet.Identity.IntegerKeys.Test
 {
-    public class IdentityContext : IdentityContextWithIntKeys
+    public class IdentityContext : IdentityContextWithIntKey
     {
         public IdentityContext(string connection = "DefaultConnection1")
             : base(connection,
