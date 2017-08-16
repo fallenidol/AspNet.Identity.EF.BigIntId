@@ -1,15 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using AspNet.Identity.IntegerKeys.Example.Models;
-
-namespace AspNet.Identity.IntegerKeys.Example.Controllers
+﻿namespace AspNet.Identity.IntegerKeys.Example.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Web;
+    using System.Web.Mvc;
+    using AspNet.Identity.IntegerKeys.Example.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
+
     [Authorize]
     public class ManageController : Controller
     {
@@ -28,26 +27,14 @@ namespace AspNet.Identity.IntegerKeys.Example.Controllers
 
         public ApplicationSignInManager SignInManager
         {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set 
-            { 
-                _signInManager = value; 
-            }
+            get => _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            private set => _signInManager = value;
         }
 
         public ApplicationUserManager UserManager
         {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
+            get => _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            private set => _userManager = value;
         }
 
         //
@@ -55,13 +42,19 @@ namespace AspNet.Identity.IntegerKeys.Example.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
-                : "";
+                message == ManageMessageId.ChangePasswordSuccess
+                    ? "Your password has been changed."
+                    : message == ManageMessageId.SetPasswordSuccess
+                        ? "Your password has been set."
+                        : message == ManageMessageId.SetTwoFactorSuccess
+                            ? "Your two-factor authentication provider has been set."
+                            : message == ManageMessageId.Error
+                                ? "An error has occurred."
+                                : message == ManageMessageId.AddPhoneSuccess
+                                    ? "Your phone number was added."
+                                    : message == ManageMessageId.RemovePhoneSuccess
+                                        ? "Your phone number was removed."
+                                        : "";
 
             var userId = User.Identity.GetUserId<int>();
             var model = new IndexViewModel
@@ -82,13 +75,14 @@ namespace AspNet.Identity.IntegerKeys.Example.Controllers
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
             ManageMessageId? message;
-            var result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId<int>(), new UserLoginInfo(loginProvider, providerKey));
+            var result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId<int>(),
+                new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId<int>());
                 if (user != null)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    await SignInManager.SignInAsync(user, false, false);
                 }
                 message = ManageMessageId.RemoveLoginSuccess;
             }
@@ -117,7 +111,8 @@ namespace AspNet.Identity.IntegerKeys.Example.Controllers
                 return View(model);
             }
             // Generate the token and send it
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId<int>(), model.Number);
+            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId<int>(),
+                model.Number);
             if (UserManager.SmsService != null)
             {
                 var message = new IdentityMessage
@@ -140,7 +135,7 @@ namespace AspNet.Identity.IntegerKeys.Example.Controllers
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId<int>());
             if (user != null)
             {
-                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                await SignInManager.SignInAsync(user, false, false);
             }
             return RedirectToAction("Index", "Manage");
         }
@@ -155,7 +150,7 @@ namespace AspNet.Identity.IntegerKeys.Example.Controllers
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId<int>());
             if (user != null)
             {
-                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                await SignInManager.SignInAsync(user, false, false);
             }
             return RedirectToAction("Index", "Manage");
         }
@@ -164,9 +159,12 @@ namespace AspNet.Identity.IntegerKeys.Example.Controllers
         // GET: /Manage/VerifyPhoneNumber
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId<int>(), phoneNumber);
+            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId<int>(),
+                phoneNumber);
             // Send an SMS through the SMS provider to verify the phone number
-            return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
+            return phoneNumber == null
+                ? View("Error")
+                : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
 
         //
@@ -179,13 +177,14 @@ namespace AspNet.Identity.IntegerKeys.Example.Controllers
             {
                 return View(model);
             }
-            var result = await UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId<int>(), model.PhoneNumber, model.Code);
+            var result =
+                await UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId<int>(), model.PhoneNumber, model.Code);
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId<int>());
                 if (user != null)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    await SignInManager.SignInAsync(user, false, false);
                 }
                 return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
             }
@@ -206,7 +205,7 @@ namespace AspNet.Identity.IntegerKeys.Example.Controllers
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId<int>());
             if (user != null)
             {
-                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                await SignInManager.SignInAsync(user, false, false);
             }
             return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
         }
@@ -228,13 +227,15 @@ namespace AspNet.Identity.IntegerKeys.Example.Controllers
             {
                 return View(model);
             }
-            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId<int>(), model.OldPassword, model.NewPassword);
+            var result =
+                await UserManager.ChangePasswordAsync(User.Identity.GetUserId<int>(), model.OldPassword,
+                    model.NewPassword);
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId<int>());
                 if (user != null)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    await SignInManager.SignInAsync(user, false, false);
                 }
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
@@ -263,7 +264,7 @@ namespace AspNet.Identity.IntegerKeys.Example.Controllers
                     var user = await UserManager.FindByIdAsync(User.Identity.GetUserId<int>());
                     if (user != null)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        await SignInManager.SignInAsync(user, false, false);
                     }
                     return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
                 }
@@ -279,16 +280,19 @@ namespace AspNet.Identity.IntegerKeys.Example.Controllers
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : "";
+                message == ManageMessageId.RemoveLoginSuccess
+                    ? "The external login was removed."
+                    : message == ManageMessageId.Error
+                        ? "An error has occurred."
+                        : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId<int>());
             if (user == null)
             {
                 return View("Error");
             }
             var userLogins = await UserManager.GetLoginsAsync(User.Identity.GetUserId<int>());
-            var otherLogins = AuthenticationManager.GetExternalAuthenticationTypes().Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider)).ToList();
+            var otherLogins = AuthenticationManager.GetExternalAuthenticationTypes()
+                .Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider)).ToList();
             ViewBag.ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1;
             return View(new ManageLoginsViewModel
             {
@@ -304,20 +308,24 @@ namespace AspNet.Identity.IntegerKeys.Example.Controllers
         public ActionResult LinkLogin(string provider)
         {
             // Request a redirect to the external login provider to link a login for the current user
-            return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId<int>());
+            return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"),
+                User.Identity.GetUserId<int>());
         }
 
         //
         // GET: /Manage/LinkLoginCallback
         public async Task<ActionResult> LinkLoginCallback()
         {
-            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId<int>());
+            var loginInfo =
+                await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId<int>());
             if (loginInfo == null)
             {
                 return RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
             }
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId<int>(), loginInfo.Login);
-            return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+            return result.Succeeded
+                ? RedirectToAction("ManageLogins")
+                : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
 
         protected override void Dispose(bool disposing)
@@ -331,17 +339,12 @@ namespace AspNet.Identity.IntegerKeys.Example.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
+
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
+        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         private void AddErrors(IdentityResult result)
         {
@@ -382,6 +385,6 @@ namespace AspNet.Identity.IntegerKeys.Example.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace AspNet.Identity.IntegerKeys.Config
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class AspNetRolesConfig
     {
         private readonly Dictionary<AspNetRolesColumn, string> _alternateColumns =

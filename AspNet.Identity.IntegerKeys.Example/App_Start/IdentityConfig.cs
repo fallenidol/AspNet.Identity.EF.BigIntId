@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin;
-using Microsoft.Owin.Security;
-using AspNet.Identity.IntegerKeys.Example.Models;
-
-namespace AspNet.Identity.IntegerKeys.Example
+﻿namespace AspNet.Identity.IntegerKeys.Example
 {
+    using System;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using AspNet.Identity.IntegerKeys.Example.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin;
+    using Microsoft.Owin.Security;
+
     public class EmailService : IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message)
@@ -40,9 +35,12 @@ namespace AspNet.Identity.IntegerKeys.Example
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options,
+            IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new IdentityUserStoreWithIntKey<ApplicationUser>(new ApplicationDbContext()));
+            var manager =
+                new ApplicationUserManager(
+                    new IdentityUserStoreWithIntKey<ApplicationUser>(new ApplicationDbContext()));
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidatorWithIntKey<ApplicationUser>(manager)
             {
@@ -57,7 +55,7 @@ namespace AspNet.Identity.IntegerKeys.Example
                 RequireNonLetterOrDigit = true,
                 RequireDigit = true,
                 RequireLowercase = true,
-                RequireUppercase = true,
+                RequireUppercase = true
             };
 
             // Configure user lockout defaults
@@ -82,7 +80,8 @@ namespace AspNet.Identity.IntegerKeys.Example
             if (dataProtectionProvider != null)
             {
                 manager.UserTokenProvider =
-                    new DataProtectorTokenProviderWithIntKey<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                    new DataProtectorTokenProviderWithIntKey<ApplicationUser>(
+                        dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
         }
@@ -91,7 +90,8 @@ namespace AspNet.Identity.IntegerKeys.Example
     // Configure the application sign-in manager which is used in this application.
     public class ApplicationSignInManager : SignInManager<ApplicationUser, int>
     {
-        public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
+        public ApplicationSignInManager(ApplicationUserManager userManager,
+            IAuthenticationManager authenticationManager)
             : base(userManager, authenticationManager)
         {
         }
@@ -101,9 +101,11 @@ namespace AspNet.Identity.IntegerKeys.Example
             return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
         }
 
-        public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
+        public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options,
+            IOwinContext context)
         {
-            return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
+            return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(),
+                context.Authentication);
         }
     }
 }

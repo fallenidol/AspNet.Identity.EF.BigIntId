@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 [assembly:
     AssemblyDescription(
         "A customised set of asp.net Identity classes which provide integer primary keys instead of the string guids in the default implementation. Also provides the ability to easily rename the tables and columns."
-        )]
+    )]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Paul Mcilreavy")]
 [assembly: AssemblyProduct("AspNet.Identity.IntegerKeys")]

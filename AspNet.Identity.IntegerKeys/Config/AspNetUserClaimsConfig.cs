@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace AspNet.Identity.IntegerKeys.Config
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class AspNetUserClaimsConfig
     {
         private readonly Dictionary<AspNetUserClaimsColumn, string> _alternateColumns =

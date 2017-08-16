@@ -1,7 +1,7 @@
-using Microsoft.AspNet.Identity.EntityFramework;
-
 namespace AspNet.Identity.IntegerKeys
 {
+    using Microsoft.AspNet.Identity.EntityFramework;
+
     public class IdentityUserLoginWithIntKey : IdentityUserLogin<int>
     {
     }

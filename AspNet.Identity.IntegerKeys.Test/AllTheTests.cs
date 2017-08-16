@@ -1,11 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace AspNet.Identity.IntegerKeys.Test
+﻿namespace AspNet.Identity.IntegerKeys.Test
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class AllTheTests
     {
@@ -91,7 +91,7 @@ namespace AspNet.Identity.IntegerKeys.Test
 
                 user = userManager.FindByEmailAsync(user.Email).Result;
 
-                Assert.AreEqual(typeof (int), user.Id.GetType());
+                Assert.AreEqual(typeof(int), user.Id.GetType());
                 Assert.IsNotNull(user);
                 Assert.AreEqual(1, user.Id);
             }
@@ -118,7 +118,7 @@ namespace AspNet.Identity.IntegerKeys.Test
 
                 user = userManager.FindByEmailAsync(user.Email).Result;
 
-                Assert.AreEqual(typeof (int), user.Id.GetType());
+                Assert.AreEqual(typeof(int), user.Id.GetType());
                 Assert.IsNotNull(user);
                 Assert.AreSame(user.Firstname, "John");
                 Assert.AreEqual(1, user.Id);
@@ -144,7 +144,7 @@ namespace AspNet.Identity.IntegerKeys.Test
 
                 user = userManager.FindByEmailAsync(user.Email).Result;
 
-                Assert.AreEqual(typeof (int), user.Id.GetType());
+                Assert.AreEqual(typeof(int), user.Id.GetType());
                 Assert.IsNotNull(user);
                 Assert.AreEqual(1, user.Id);
             }
@@ -171,13 +171,12 @@ namespace AspNet.Identity.IntegerKeys.Test
 
                 user = userManager.FindByEmailAsync(user.Email).Result;
 
-                Assert.AreEqual(typeof (int), user.Id.GetType());
+                Assert.AreEqual(typeof(int), user.Id.GetType());
                 Assert.IsNotNull(user);
                 Assert.AreSame(user.Firstname, "John");
                 Assert.AreEqual(1, user.Id);
                 Assert.AreEqual(DateTimeKind.Utc, user.LastUpdatedUtc.Kind);
                 Assert.AreEqual(false, user.SomeDate.HasValue);
-
             }
         }
 

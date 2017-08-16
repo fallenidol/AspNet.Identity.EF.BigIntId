@@ -1,7 +1,7 @@
-using Microsoft.AspNet.Identity;
-
 namespace AspNet.Identity.IntegerKeys
 {
+    using Microsoft.AspNet.Identity;
+
     public class UserValidatorWithIntKey<TUser> : UserValidator<TUser, int> where TUser : class, IUser<int>
     {
         /// <summary>

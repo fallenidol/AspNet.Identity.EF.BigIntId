@@ -1,15 +1,15 @@
-﻿using System;
-using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Infrastructure;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using AspNet.Identity.IntegerKeys.Config;
-using Microsoft.AspNet.Identity.EntityFramework;
-
-namespace AspNet.Identity.IntegerKeys
+﻿namespace AspNet.Identity.IntegerKeys
 {
+    using System;
+    using System.Data.Entity;
+    using System.Data.Entity.Core.Objects;
+    using System.Data.Entity.Infrastructure;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Reflection;
+    using AspNet.Identity.IntegerKeys.Config;
+    using Microsoft.AspNet.Identity.EntityFramework;
+
     public class IdentityContextWithIntKey : IdentityContextWithIntKey<IdentityUserWithIntKey>
     {
         public IdentityContextWithIntKey()
@@ -30,7 +30,7 @@ namespace AspNet.Identity.IntegerKeys
             AspNetUserLoginsConfig userLoginConfig = null,
             AspNetUserRolesConfig userRoleConfig = null,
             AspNetUsersConfig userConfig = null
-            )
+        )
             : base(nameOrConnectionString,
                 altSchemaName,
                 tableConfig,
@@ -39,13 +39,14 @@ namespace AspNet.Identity.IntegerKeys
                 userLoginConfig,
                 userRoleConfig,
                 userConfig
-                )
+            )
         {
         }
     }
 
     public abstract class IdentityContextWithIntKey<T> :
-        IdentityDbContext<T, IdentityRoleWithIntKey, int, IdentityUserLoginWithIntKey, IdentityUserRoleWithIntKey, IdentityUserClaimWithIntKey>
+        IdentityDbContext<T, IdentityRoleWithIntKey, int, IdentityUserLoginWithIntKey, IdentityUserRoleWithIntKey,
+            IdentityUserClaimWithIntKey>
         where T : IdentityUserWithIntKey
     {
         private readonly string _altSchemaName;
@@ -70,7 +71,7 @@ namespace AspNet.Identity.IntegerKeys
             AspNetUserLoginsConfig userLoginConfig = null,
             AspNetUserRolesConfig userRoleConfig = null,
             AspNetUsersConfig userConfig = null
-            )
+        )
             : base(nameOrConnectionString)
         {
             _userConfig = userConfig ?? new AspNetUsersConfig();
@@ -102,70 +103,6 @@ namespace AspNet.Identity.IntegerKeys
             catch
             {
                 //
-            }
-        }
-
-        private void ObjectContext_SavingChanges(object sender, EventArgs e)
-        {
-            foreach (var entry in ChangeTracker.Entries())
-            {
-                EnsureDateTimePropertiesAreUtc(entry.Entity);
-            }
-        }
-
-        private void ObjectContext_ObjectMaterialized(object sender, ObjectMaterializedEventArgs e)
-        {
-            EnsureDateTimePropertiesAreUtc(e.Entity);
-        }
-
-        private static void EnsureDateTimePropertiesAreUtc(object entity)
-        {
-            if (entity != null)
-            {
-                var properties = entity.GetType()
-                    .GetProperties(BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.Instance)
-                    .Where(x => x.PropertyType == typeof (DateTime) || x.PropertyType == typeof (DateTime?));
-
-                foreach (var property in properties)
-                {
-                    if (property.PropertyType == typeof (DateTime?))
-                    {
-                        var dt = (DateTime?) property.GetValue(entity);
-
-                        if (dt.HasValue && dt.Value.Kind == DateTimeKind.Unspecified)
-                        {
-                            Trace.WriteLine(string.Format("Setting {0} to UTC", property.Name));
-
-                            var v = DateTime.SpecifyKind(dt.Value, DateTimeKind.Utc);
-                            property.SetValue(entity, v);
-                        }
-                        else if (dt.HasValue && dt.Value.Kind == DateTimeKind.Local)
-                        {
-                            Trace.WriteLine(string.Format("Changing {0} to UTC", property.Name));
-
-                            property.SetValue(entity, dt.Value.ToUniversalTime());
-                        }
-                    }
-
-                    if (property.PropertyType == typeof (DateTime))
-                    {
-                        var dt = (DateTime) property.GetValue(entity);
-
-                        if (dt.Kind == DateTimeKind.Unspecified)
-                        {
-                            Trace.WriteLine(string.Format("Setting {0} to UTC", property.Name));
-
-                            var v = DateTime.SpecifyKind(dt, DateTimeKind.Utc);
-                            property.SetValue(entity, v);
-                        }
-                        else if (dt.Kind == DateTimeKind.Local)
-                        {
-                            Trace.WriteLine(string.Format("Changing {0} to UTC", property.Name));
-
-                            property.SetValue(entity, dt.ToUniversalTime());
-                        }
-                    }
-                }
             }
         }
 
@@ -358,6 +295,70 @@ namespace AspNet.Identity.IntegerKeys
             }
 
             #endregion
+        }
+
+        private void ObjectContext_SavingChanges(object sender, EventArgs e)
+        {
+            foreach (var entry in ChangeTracker.Entries())
+            {
+                EnsureDateTimePropertiesAreUtc(entry.Entity);
+            }
+        }
+
+        private void ObjectContext_ObjectMaterialized(object sender, ObjectMaterializedEventArgs e)
+        {
+            EnsureDateTimePropertiesAreUtc(e.Entity);
+        }
+
+        private static void EnsureDateTimePropertiesAreUtc(object entity)
+        {
+            if (entity != null)
+            {
+                var properties = entity.GetType()
+                    .GetProperties(BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.Instance)
+                    .Where(x => x.PropertyType == typeof(DateTime) || x.PropertyType == typeof(DateTime?));
+
+                foreach (var property in properties)
+                {
+                    if (property.PropertyType == typeof(DateTime?))
+                    {
+                        var dt = (DateTime?)property.GetValue(entity);
+
+                        if (dt.HasValue && dt.Value.Kind == DateTimeKind.Unspecified)
+                        {
+                            Trace.WriteLine(string.Format("Setting {0} to UTC", property.Name));
+
+                            var v = DateTime.SpecifyKind(dt.Value, DateTimeKind.Utc);
+                            property.SetValue(entity, v);
+                        }
+                        else if (dt.HasValue && dt.Value.Kind == DateTimeKind.Local)
+                        {
+                            Trace.WriteLine(string.Format("Changing {0} to UTC", property.Name));
+
+                            property.SetValue(entity, dt.Value.ToUniversalTime());
+                        }
+                    }
+
+                    if (property.PropertyType == typeof(DateTime))
+                    {
+                        var dt = (DateTime)property.GetValue(entity);
+
+                        if (dt.Kind == DateTimeKind.Unspecified)
+                        {
+                            Trace.WriteLine(string.Format("Setting {0} to UTC", property.Name));
+
+                            var v = DateTime.SpecifyKind(dt, DateTimeKind.Utc);
+                            property.SetValue(entity, v);
+                        }
+                        else if (dt.Kind == DateTimeKind.Local)
+                        {
+                            Trace.WriteLine(string.Format("Changing {0} to UTC", property.Name));
+
+                            property.SetValue(entity, dt.ToUniversalTime());
+                        }
+                    }
+                }
+            }
         }
     }
 }

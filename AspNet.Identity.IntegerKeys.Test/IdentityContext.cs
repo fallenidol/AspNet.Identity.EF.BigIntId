@@ -1,7 +1,7 @@
-﻿using AspNet.Identity.IntegerKeys.Config;
-
-namespace AspNet.Identity.IntegerKeys.Test
+﻿namespace AspNet.Identity.IntegerKeys.Test
 {
+    using AspNet.Identity.IntegerKeys.Config;
+
     public class IdentityContext : IdentityContextWithIntKey
     {
         public IdentityContext(string connection = "DefaultConnection1")
@@ -13,7 +13,7 @@ namespace AspNet.Identity.IntegerKeys.Test
                 AspNetUserLoginsConfig.AllCapsWithUnderscores(),
                 AspNetUserRolesConfig.AllCapsWithUnderscores(),
                 AspNetUsersConfig.AllCapsWithUnderscores()
-                )
+            )
         {
             //
         }

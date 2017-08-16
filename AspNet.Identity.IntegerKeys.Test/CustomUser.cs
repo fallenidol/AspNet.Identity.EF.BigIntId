@@ -1,9 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace AspNet.Identity.IntegerKeys.Test
+﻿namespace AspNet.Identity.IntegerKeys.Test
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public class CustomUser : IdentityUserWithIntKey
     {
         [Column("FIRSTNAME")]

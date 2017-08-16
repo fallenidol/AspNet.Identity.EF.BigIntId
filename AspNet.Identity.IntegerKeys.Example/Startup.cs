@@ -1,9 +1,12 @@
-﻿using Microsoft.Owin;
-using Owin;
+﻿using AspNet.Identity.IntegerKeys.Example;
+using Microsoft.Owin;
 
-[assembly: OwinStartupAttribute(typeof(AspNet.Identity.IntegerKeys.Example.Startup))]
+[assembly: OwinStartup(typeof(Startup))]
+
 namespace AspNet.Identity.IntegerKeys.Example
 {
+    using Owin;
+
     public partial class Startup
     {
         public void Configuration(IAppBuilder app)
